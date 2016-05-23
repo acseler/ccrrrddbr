@@ -80,7 +80,6 @@ module Codebreaker
           %w(4321 ----)
         ].each do |bank|
           it "should return #{bank[1]}" do
-            p game.instance_variable_get(:@secret_code)
             expect(game.send(:check_code, bank[0])).to eq bank[1]
           end
         end
