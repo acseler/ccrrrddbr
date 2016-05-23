@@ -5,7 +5,7 @@ require 'codebreaker/game_enums'
 # Module Codebreaker
 module Codebreaker
   RSpec.describe System do
-    let(:system) { System.new }
+    subject(:system) { System.new }
     let(:result_success) do
       h = {}
       h.store(:res_success, GameEnums::WIN)

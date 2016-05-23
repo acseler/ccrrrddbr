@@ -39,16 +39,14 @@ module Codebreaker
       secret_copy = @secret_code.chars
       code_chars = code.chars
       code_match = ''
-
       secret_copy, code_chars = secret_copy.zip(code_chars).delete_if do |item|
         code_match << '+' if item.uniq.size == 1
-      end.flatten.partition.with_index { |_item, index| index.even? }
-
+      end.transpose
+      return code_match if success(code_match)
       code_chars.each do |item|
-        if secret_copy.include?(item)
-          code_match << '-'
-          secret_copy.delete(item)
-        end
+        next unless secret_copy.include?(item)
+        code_match << '-'
+        secret_copy.delete(item)
       end
       code_match
     end

@@ -8,10 +8,9 @@ module Codebreaker
     include MessageChecker
     include MessageHelper
     def try
-      try_to_guess_code
-      until check_guess_message((input = STDIN.gets.chomp))
+      begin
         try_to_guess_code
-      end
+      end until check_guess_message((input = STDIN.gets.chomp))
       input
     end
   end

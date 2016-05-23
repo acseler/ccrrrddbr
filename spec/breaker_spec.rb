@@ -4,7 +4,7 @@ require 'codebreaker/breaker'
 # Module Codebreaker
 module Codebreaker
   RSpec.describe Breaker do
-    let(:breaker) { Breaker.new }
+    subject(:breaker) { Breaker.new }
     let(:input_val) { '1234' }
     context '#try' do
       it 'should return 1234' do
