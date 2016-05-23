@@ -6,7 +6,7 @@ module Codebreaker
   class Game
     include GameEnums
     TUNS_DEFAULT = 12
-    attr_reader :turns, :hint_count, :hint, :game_success
+    attr_reader :turns, :hint_count
 
     def initialize
       @secret_code = ''
@@ -15,7 +15,7 @@ module Codebreaker
     end
 
     def start
-      4.times { @secret_code << rand(1..6).to_s }
+      @secret_code << (1..4).map { rand(1..6) }.join
     end
 
     def game_over?(code)
@@ -39,16 +39,11 @@ module Codebreaker
       secret_copy = @secret_code.chars
       code_chars = code.chars
       code_match = ''
-      code_chars.map!.with_index do |item, index|
-        if item == secret_copy[index]
-          code_match << '+'
-          secret_copy[index] = nil
-          nil
-        else
-          item
-        end
-      end.compact!
-      secret_copy.compact!
+
+      secret_copy, code_chars = secret_copy.zip(code_chars).delete_if do |item|
+        code_match << '+' if item.uniq.size == 1
+      end.flatten.partition.with_index { |_item, index| index.even? }
+
       code_chars.each do |item|
         if secret_copy.include?(item)
           code_match << '-'
@@ -64,10 +59,10 @@ module Codebreaker
 
     def hash_out(res_success, res_of_match, hint = nil)
       {
-        res_success: res_success,
-        res_of_match: res_of_match,
-        turns: @turns,
-        hint: hint
+          res_success: res_success,
+          res_of_match: res_of_match,
+          turns: @turns,
+          hint: hint
       }
     end
 
