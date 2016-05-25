@@ -32,6 +32,7 @@ module Codebreaker
 
     def match_code(code)
       @turns -= 1
+      return '++++' if @secret_code == code
       check_code(code)
     end
 
@@ -42,7 +43,6 @@ module Codebreaker
       secret_copy, code_chars = secret_copy.zip(code_chars).delete_if do |item|
         code_match << '+' if item.uniq.size == 1
       end.transpose
-      return code_match if success(code_match)
       code_chars.each do |item|
         next unless secret_copy.include?(item)
         code_match << '-'
